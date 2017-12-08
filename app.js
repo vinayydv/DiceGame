@@ -10,7 +10,7 @@ GAME RULES:
 */
 
 var scores, roundScore, activePlayer;
-
+var lastDice;
 init();
 
 //console.log(dice);
@@ -33,8 +33,12 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
     diceDOM.style.display = 'block';
     diceDOM.src = 'dice-'+dice+'.png';
     
-    
-    if(dice > 1){
+    if(dice === 6 && lastDice ===6){
+        scores[activePlayer] = 0;
+        document.querySelector('#score-'+activePlayer).textContent = '0';
+        nextPlayer();
+    }
+    else if(dice > 1){
         //addScore
         roundScore += dice;
         document.querySelector('#current-'+activePlayer).textContent = roundScore;
@@ -45,6 +49,8 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
 
     }
     
+    lastDice = dice;
+    
 });
 
 document.querySelector('.btn-hold').addEventListener('click', function(){
@@ -52,7 +58,7 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
     
     document.querySelector('#score-'+activePlayer).textContent = scores[activePlayer];
     
-    if(scores[activePlayer] >= 20){
+    if(scores[activePlayer] >= 100){
         document.querySelector('#name-'+activePlayer).textContent = "Sikander";
         document.querySelector('.dice').style.display = 'none';
         document.querySelector('.player-'+activePlayer+'-panel').classList.add('winner');
